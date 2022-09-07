@@ -19,5 +19,14 @@ module.exports = function(app) {
     controller.signup
   );
 
+  app.post(
+    "/api/auth/createStudent",
+    [
+      verifySignUp.checkDuplicateUsernameOrEmail,
+      verifySignUp.checkRolesExisted
+    ],
+    controller.createStudent
+  );
+
   app.post("/api/auth/signin", controller.signin);
 };

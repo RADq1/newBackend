@@ -2,7 +2,6 @@ const express = require("express");
 const cors = require("cors");
 
 const app = express();
-
 var corsOptions = {
   origin: "http://localhost:8081"
 };
@@ -17,13 +16,19 @@ app.use(express.urlencoded({ extended: true }));
 
 // database
 const db = require("./app/models");
+// const { user } = require("./app/models");
 const Role = db.role;
+const User = db.user;
+// const UserRole = require("./app/models/userRole.model");
+const UserRole = db.UserRole
+var bcrypt = require("bcryptjs");
 
 db.sequelize.sync();
 // force: true will drop the table if it already exists
 // db.sequelize.sync({force: true}).then(() => {
 //   console.log('Drop and Resync Database with { force: true }');
 //   initial();
+//   // addRole();
 // });
 
 // simple route
@@ -44,15 +49,62 @@ app.listen(PORT, () => {
 function initial() {
   Role.create({
     id: 1,
-    name: "user"
+    name: "student"
   });
   Role.create({
     id: 2,
-    name: "moderator"
+    name: "employee"
   });
   Role.create({
     id: 3,
     name: "admin"
   });
+
+  User.create({
+    id: 1,
+    name: "Radosław",
+    username: "radgac", //login
+    surname: "Gackowski",
+    birthDate: Date.parse("07.11.1998"),
+    email: "1998radq@gmail.com",
+    password: bcrypt.hashSync("123456", 8), //haslo
+  })
+  User.create({
+    id: 2,
+    name: "Ania",
+    username: "vnulkv", //login
+    surname: "Brzuskniewicz",
+    birthDate: Date.parse("05.04.1998"),
+    email: "annabrzuskniewicz@gmail.com",
+    password: bcrypt.hashSync("123456", 8), //haslo
+  })
+
+  // const user = User.findAll({
+  //   where: {
+  //     id: 1,
+  //   }
+  // })
+  // const role = Role.findAll({
+  //   where: {
+  //     id: 3,
+  //   }
+  // })
+  // console.log( user, role)
+  // UserRole.create({
+  //   roleId: role,
+  //   userId: user
+  // })
 }
-// initial();
+// function addRole() {
+//   const user = User.findAll({
+//     where: {
+//       id: 1,
+//     }
+//   })
+//   const role = Role.findAll({
+//     where: {
+//       id: 3,
+//     }
+//   })
+//   console.log(`uzytkownik: ${user.imie}`)
+// }

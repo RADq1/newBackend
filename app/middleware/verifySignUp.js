@@ -45,7 +45,6 @@ checkRolesExisted = (req, res, next) => {
       }
     }
   }
-  
   next();
 };
 

@@ -8,6 +8,43 @@ const Op = db.Sequelize.Op;
 var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
 
+exports.createStudent = (req, res) => {
+  // Save User to Database
+  User.create({
+    name: req.body.name,
+    surname: req.body.surname,
+    username: req.body.username,
+    email: req.body.email,
+    password: bcrypt.hashSync(req.body.password, 8),
+    indexNumber: req.body.indexNumber,
+    birthDate: req.body.birthDate,
+    isStudent: true,
+  })
+    .then(user => {
+      if (req.body.roles) {
+        Role.findAll({
+          where: {
+            name: {
+              [Op.or]: req.body.roles
+            }
+          }
+        }).then(roles => {
+          user.setRoles(roles).then(() => {
+            res.send({ message: "Student stworzony pomyślnie" });
+          });
+        });
+      } else {
+        // user role = 1
+        user.setRoles([1]).then(() => {
+          res.send({ message: "Student stworzony pomyślnie" });
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({ message: err.message });
+    });
+};
+
 exports.signup = (req, res) => {
   // Save User to Database
   User.create({
