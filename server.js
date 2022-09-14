@@ -20,8 +20,9 @@ const db = require("./app/models");
 const Role = db.role;
 const User = db.user;
 // const UserRole = require("./app/models/userRole.model");
-const UserRole = db.UserRole
+// const UserRole = db.UserRole
 var bcrypt = require("bcryptjs");
+const { sequelize } = require("./app/models");
 
 db.sequelize.sync();
 // force: true will drop the table if it already exists
@@ -47,6 +48,11 @@ app.listen(PORT, () => {
 });
 
 function initial() {
+  let dateNow = Date.now();
+  let addRoles = "INSERT INTO user_roles (roleId, userId) VALUES 3, 1";
+  sequelize.query("SELECT * FROM users")
+  // sequelize.query("INSERT INTO user_roles VALUES 1, 3")
+  
   Role.create({
     id: 1,
     name: "student"
@@ -78,6 +84,7 @@ function initial() {
     email: "annabrzuskniewicz@gmail.com",
     password: bcrypt.hashSync("123456", 8), //haslo
   })
+  // sequelize.query("INSERT INTO `user_roles` (`createdAt`, `updatedAt`, `roleId`, `userId`) VALUES ('2022-09-10 14:26:56.000000', '2022-09-10 14:26:56.000000', '3', '1')")
 
   // const user = User.findAll({
   //   where: {
