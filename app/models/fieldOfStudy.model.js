@@ -1,5 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
-  const Lesson = sequelize.define("Lesson", {
+  const FieldOfStudy = sequelize.define("fieldofstudy", {
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
@@ -7,10 +7,7 @@ module.exports = (sequelize, Sequelize) => {
     name: {
       type: Sequelize.STRING,
     },
-    numberOfECTS: {
-      type: Sequelize.INTEGER,
-    },
   });
-  //RELACJA DO USER, KIERUNEK, WYDZIAŁ
-  return Lesson;
+  //RELACJA DO LESSON
+  return FieldOfStudy;
 };

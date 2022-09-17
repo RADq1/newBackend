@@ -1,13 +1,13 @@
 module.exports = (sequelize, Sequelize) => {
-  const Role = sequelize.define("roles", {
+  const Grade = sequelize.define("Grade", {
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
     },
-    name: {
-      type: Sequelize.STRING,
+    grade: {
+      type: Sequelize.INTEGER,
     },
   });
-
-  return Role;
+  //RELACJA DO LESSON
+  return Grade;
 };
