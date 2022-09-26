@@ -1,18 +1,18 @@
 const express = require("express");
-const cors = require("cors");
-
 const app = express();
-var corsOptions = {
-  origin: "http://localhost:8081",
-};
+require("dotenv").config();
 
-app.use(cors(corsOptions));
+const cors = require("cors");
+// const bodyParser = require("body-parser");
+const nodemailer = require("nodemailer");
 
-// parse requests of content-type - application/json
+// var corsOptions = {
+//   origin: "http://localhost:8081",
+// };
+app.use(cors());
 app.use(express.json());
-
-// parse requests of content-type - application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
+
 // database
 const db = require("./app/models");
 // const { user } = require("./app/models");
@@ -21,8 +21,6 @@ const User = db.user;
 const FieldOfStudy = db.fieldOfStudy;
 const Faculty = db.faculty;
 const Lesson = db.lesson;
-// const UserRole = require("./app/models/userRole.model");
-// const UserRole = db.UserRole
 var bcrypt = require("bcryptjs");
 const { sequelize, fieldOfStudy, grade } = require("./app/models");
 
@@ -35,9 +33,58 @@ db.sequelize.sync();
 //   // addRole();
 // });
 
-// simple route
 app.get("/", (req, res) => {
   res.json({ message: "Witaj w aplikacji dziennika studenta." });
+});
+
+//send email
+app.post("/send_mail", cors(), async (req, res) => {
+  let { text, email, subject, number, data, currentUser } = req.body;
+  console.log(data);
+  const transport = nodemailer.createTransport({
+    service: "Gmail",
+    auth: {
+      user: process.env.MAIL_USER,
+      pass: process.env.MAIL_PASS,
+    },
+  });
+
+  await transport.sendMail({
+    from: process.env.MAIL_USER,
+    to: email,
+    subject: subject,
+    html: `<div className="email" style="
+    padding: 20px;
+    font-family: sans-serif;
+    line-height: 2;
+    font-size: 10px;
+    ">
+    <h2>Moje oceny:</h2>
+    <table className="tabled" style="
+      text-align: center;
+      padding: 20px;
+      ">
+        <tr>
+          <th>Nazwa przedmiotu</th>
+          <th>Ocena</th>
+          <th>Liczba punktów ECTS</th>
+        </tr>
+      ${data?.map(({ Lesson, grade }) => {
+        return `
+        <tr>
+          <td>${Lesson.name}</td>
+          <td>${grade}</td>
+          <td>${Lesson.numberOfECTS}</td>
+        </tr>`
+      })}
+    </table>
+    <h4>Mój numer telefonu: ${number}</h4>
+    <p>Wiadomość od studenta: ${text}</p>
+    <h3>Z wyrazami szacunku, ${currentUser.name}</h3>
+    </div>
+    `
+  });
+  res.send("mail zostal wyslany");
 });
 
 // routes
