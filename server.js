@@ -57,7 +57,7 @@ app.post("/send_mail", cors(), async (req, res) => {
     padding: 20px;
     font-family: sans-serif;
     line-height: 2;
-    font-size: 10px;
+    font-size: 12px;
     ">
     <h2>Moje oceny:</h2>
     <table className="tabled" style="
