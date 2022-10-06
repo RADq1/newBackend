@@ -40,7 +40,7 @@ app.get("/", (req, res) => {
 //send email
 app.post("/send_mail", cors(), async (req, res) => {
   let { text, email, subject, number, data, currentUser } = req.body;
-  console.log(data);
+  // console.log(data);
   const transport = nodemailer.createTransport({
     service: "Gmail",
     auth: {
@@ -60,7 +60,7 @@ app.post("/send_mail", cors(), async (req, res) => {
     font-size: 12px;
     ">
     <h2>Moje oceny:</h2>
-    <table className="tabled" style="
+    <table style="
       text-align: center;
       padding: 20px;
       ">
@@ -70,13 +70,13 @@ app.post("/send_mail", cors(), async (req, res) => {
           <th>Liczba punktów ECTS</th>
         </tr>
       ${data?.map(({ Lesson, grade }) => {
-        return `
-        <tr>
-          <td>${Lesson.name}</td>
-          <td>${grade}</td>
-          <td>${Lesson.numberOfECTS}</td>
-        </tr>`
-      })}
+          return `
+          <tr>
+            <td>${Lesson.name}</td>
+            <td>${grade}</td>
+            <td>${Lesson.numberOfECTS}</td>
+          </tr>`
+      }).join("")}
     </table>
     <h4>Mój numer telefonu: ${number}</h4>
     <p>Wiadomość od studenta: ${text}</p>
@@ -91,6 +91,7 @@ app.post("/send_mail", cors(), async (req, res) => {
 require("./app/routes/auth.routes")(app);
 require("./app/routes/user.routes")(app);
 require("./app/routes/grade.routes")(app);
+require("./app/routes/employee.routes")(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
@@ -101,7 +102,6 @@ app.listen(PORT, () => {
 function initial() {
   // let dateNow = Date.now();
   // let addRoles = "INSERT INTO user_roles (roleId, userId) VALUES 3, 1";
-  // sequelize.query("INSERT INTO user_roles VALUES 1, 3")
 
   Role.create({
     id: 1,
@@ -186,21 +186,37 @@ function initial() {
     id: 1,
     name: "Matematyka",
     numberOfECTS: 3,
-    userId: 3,
+    semestr: 1,
+    type: "laboratorium",
+    employeeUserId: 2,
     fieldofstudyId: 2,
   });
   Lesson.create({
     id: 2,
     name: "Programowanie obiektowe",
     numberOfECTS: 5,
-    userId: 3,
+    semestr: 1,
+    type: "laboratorium",
+    employeeUserId: 2,
     fieldofstudyId: 2,
   });
   Lesson.create({
     id: 3,
     name: "Mikroprocesory",
     numberOfECTS: 5,
-    userId: 3,
+    semestr: 2,
+    type: "laboratorium",
+    employeeUserId: 2,
     fieldofstudyId: 2,
   });
+  Lesson.create({
+    id: 4,
+    name: "Matematyka",
+    numberOfECTS: 3,
+    semestr: 2,
+    type: "wykład",
+    employeeUserId: 2,
+    fieldofstudyId: 2,
+  });
+  // sequelize.query("INSERT INTO `user_roles` (`createdAt`, `updatedAt`, `roleId`, `userId`) VALUES ('2022-10-06 14:51:03.000000', '2022-10-06 14:51:03.000000', '3', '1');")
 }

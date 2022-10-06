@@ -29,6 +29,7 @@ db.fieldOfStudy = require("../models/fieldOfStudy.model.js")(
   sequelize,
   Sequelize
 );
+db.lessonUser = require("../models/lessonuser.model.js")(sequelize, Sequelize);
 // db.userRoleModel = require("../models/userRole.model")(sequelize, Sequelize);
 
 //relations
@@ -43,22 +44,23 @@ db.user.belongsToMany(db.role, {
   otherKey: "roleId",
 });
 
-// db.fieldOfStudy.belongsTo(db.lesson);
-
-db.lesson.belongsTo(db.user);
-db.lesson.belongsTo(db.fieldOfStudy);
-// db.lesson.belongsTo(db.faculty);
-
-//USERS
-db.fieldOfStudy.hasOne(db.user, {
-  foreignKey: "fieldOfStudyId",
+//relacja dla pracownika w sekcji lekcja
+db.lesson.belongsTo(db.user, {
+  foreignKey: 'employeeUserId'
 });
-// db.faculty.hasOne(db.user, {
-//   foreignKey: "facultyId",
-// });
-db.lesson.hasMany(db.grade);
-db.grade.belongsTo(db.lesson);
 
+db.lesson.belongsTo(db.fieldOfStudy);
+
+db.fieldOfStudy.hasMany(db.user);
+db.user.belongsTo(db.fieldOfStudy)
+db.lesson.hasMany(db.grade);
+db.user.hasMany(db.grade);
+
+//lesson_user, tabela id_lesson, id_user
+db.user.belongsToMany(db.lesson, { through: db.lessonUser });
+db.lesson.belongsToMany(db.user, { through: db.lessonUser });
+
+db.grade.belongsTo(db.lesson);
 db.grade.belongsTo(db.user);
 
 db.faculty.hasOne(db.fieldOfStudy);

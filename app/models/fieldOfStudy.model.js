@@ -1,6 +1,7 @@
 module.exports = (sequelize, Sequelize) => {
   const FieldOfStudy = sequelize.define("fieldofstudy", {
     id: {
+      autoIncrement: true,
       type: Sequelize.INTEGER,
       primaryKey: true,
     },

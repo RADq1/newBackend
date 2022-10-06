@@ -28,6 +28,15 @@ module.exports = function (app) {
     controller.createStudent
   );
 
+  app.post(
+    "/api/auth/createEmployee",
+    [
+      verifySignUp.checkDuplicateUsernameOrEmail,
+      verifySignUp.checkRolesExisted,
+    ],
+    controller.createEmployee
+  );
+
   app.post("/api/auth/signin", controller.signin);
 
   app.post("/edit/surname", controller.editSurname);

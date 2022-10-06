@@ -1,16 +1,22 @@
 module.exports = (sequelize, Sequelize) => {
   const Lesson = sequelize.define("Lesson", {
     id: {
+      autoIncrement: true,
       type: Sequelize.INTEGER,
       primaryKey: true,
-    },
-    name: {
-      type: Sequelize.STRING,
     },
     numberOfECTS: {
       type: Sequelize.INTEGER,
     },
+    name: {
+      type: Sequelize.STRING,
+    },
+    type: {
+      type: Sequelize.STRING,
+    },
+    semestr: {
+      type: Sequelize.INTEGER,
+    },
   });
-  //RELACJA DO USER, KIERUNEK, WYDZIAŁ
   return Lesson;
 };

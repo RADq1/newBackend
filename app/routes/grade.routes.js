@@ -10,4 +10,7 @@ module.exports = function (app) {
   });
 
   app.get("/showGrades/:id", controller.sendAllGrades);
+  app.get("/showStudentList", controller.sendStudentList);
+  app.get("/showGrade/:id", controller.sendGrades);
+  app.post("/addGrades", controller.addGrades);
 };
