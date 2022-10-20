@@ -1,11 +1,78 @@
 const express = require("express");
 const app = express();
-require("dotenv").config();
+//google calendar
+// const {google} = require('googleapis');
+// const {OAuth2} = google.auth;
+// const oAuth2Client = new OAuth2('628486044277-0th0ju9d8n47l1qio41hldeekhd7u727.apps.googleusercontent.com', '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')
 
+// oAuth2Client.setCredentials({refresh_token: '1//04W7-OIb-ih6CCgYIARAAGAQSNwF-L9Ir_UWWmfTaTClnpqUkBtlEWPC2-2pErxq92fG6MiY_As_F-tnMg5wTNIpIr33XCP2xd7o'})
+
+// const calendar = google.calendar({version: 'v3', auth: oAuth2Client})
+
+// const eventStartTime = new Date()
+// eventStartTime.setDate(eventStartTime.getDay() + 23)
+
+// const eventEndTime = new Date()
+// eventEndTime.setDate(eventEndTime.getDay() + 33)
+// eventEndTime.setMinutes(eventEndTime.getMinutes() + 45)
+
+// const event = {
+//   summary: 'Termin obrony',
+//   location: 'Profesora Sylwestra Kaliskiego 7, 85-796 Bydgoszcz',
+//   description: 'temat pracy dyplomowej, uzytkownik',
+//   start: {
+//     dateTime: eventStartTime,
+//     timeZone: 'Poland'
+//   },
+//   end: {
+//     dateTime: eventEndTime,
+//     timeZone: 'Poland'
+//   },
+//   colorId: 1,
+// }
+
+// calendar.freebusy.query(
+//   {
+//     resource: {
+//       timeMin: eventStartTime,
+//       timeMax: eventEndTime,
+//       timeZone: 'Poland',
+//       items: [{ id: 'primary' }],
+//     },
+//   },
+//   (err, res) => {
+//     // Check for errors in our query and log them if they exist.
+//     if (err) return console.error('Free Busy Query Error: ', err)
+
+//     // Create an array of all events on our calendar during that time.
+//     const eventArr = res.data.calendars.primary.busy
+
+//     // Check if event array is empty which means we are not busy
+//     if (eventArr.length === 0)
+//       // If we are not busy create a new calendar event.
+//       return calendar.events.insert(
+//         { calendarId: 'primary', resource: event },
+//         err => {
+//           // Check for errors and log them if they exist.
+//           if (err) return console.error('Error Creating Calender Event:', err)
+//           // Else log that the event was created.
+//           return console.log('Calendar event successfully created.')
+//         }
+//       )
+
+//     // If event array is not empty log that we are busy.
+//     return console.log(`Sorry I'm busy...`)
+//   }
+// )
+
+const createError = require('http-errors');
+const morgan = require('morgan');
+require("dotenv").config();
+app.use(morgan('dev'));
 const cors = require("cors");
 // const bodyParser = require("body-parser");
 const nodemailer = require("nodemailer");
-
+global.__basedir = __dirname + "/..";
 // var corsOptions = {
 //   origin: "http://localhost:8081",
 // };
@@ -36,7 +103,7 @@ db.sequelize.sync();
 app.get("/", (req, res) => {
   res.json({ message: "Witaj w aplikacji dziennika studenta." });
 });
-
+app.use('/api', require('./app/routes/google.routes'));
 //send email
 app.post("/send_mail", cors(), async (req, res) => {
   let { text, email, subject, number, data, currentUser } = req.body;
@@ -92,6 +159,7 @@ require("./app/routes/auth.routes")(app);
 require("./app/routes/user.routes")(app);
 require("./app/routes/grade.routes")(app);
 require("./app/routes/employee.routes")(app);
+require("./app/routes/excel.routes")(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;

@@ -1,5 +1,5 @@
 const controller = require("../controllers/grades.controller");
-
+const upload = require("../middleware/upload");
 module.exports = function (app) {
   app.use(function (req, res, next) {
     res.header(
@@ -13,4 +13,5 @@ module.exports = function (app) {
   app.get("/showStudentList", controller.sendStudentList);
   app.get("/showGrade/:id", controller.sendGrades);
   app.post("/addGrades", controller.addGrades);
+  app.post("/importGrades", upload.single("file"), controller.upload);
 };

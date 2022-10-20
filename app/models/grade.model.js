@@ -5,10 +5,12 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.INTEGER,
       primaryKey: true,
     },
+    importedFrom: {
+      type: Sequelize.STRING,
+    },
     grade: {
-      type: Sequelize.INTEGER,
+      type: Sequelize.FLOAT,
     },
   });
-  //RELACJA DO LESSON
   return Grade;
 };

@@ -29,7 +29,7 @@ db.fieldOfStudy = require("../models/fieldOfStudy.model.js")(
   sequelize,
   Sequelize
 );
-db.lessonUser = require("../models/lessonuser.model.js")(sequelize, Sequelize);
+// db.lessonUser = require("../models/lessonuser.model.js")(sequelize, Sequelize);
 // db.userRoleModel = require("../models/userRole.model")(sequelize, Sequelize);
 
 //relations
@@ -57,8 +57,8 @@ db.lesson.hasMany(db.grade);
 db.user.hasMany(db.grade);
 
 //lesson_user, tabela id_lesson, id_user
-db.user.belongsToMany(db.lesson, { through: db.lessonUser });
-db.lesson.belongsToMany(db.user, { through: db.lessonUser });
+// db.user.belongsToMany(db.lesson, { through: db.lessonUser });
+// db.lesson.belongsToMany(db.user, { through: db.lessonUser });
 
 db.grade.belongsTo(db.lesson);
 db.grade.belongsTo(db.user);
