@@ -27,7 +27,23 @@ exports.addGrades = (req, res) => {
     res.status(200).send(`Zaaktualizowano ocene`);
   }
 ;
+exports.sendEmployeeList = async (req, res) => {
+  // console.log(req);
+  const data = await User.findAll({
+    where: {
+      isStudent: null,
+    },
+  })
+    .then(function (data) {
+      console.log(data);
+      return data;
+    })
+    .catch((error) => {
+      return error;
+    });
 
+  res.json({ success: true, data: data });
+};
 //wyslanie wszystkich ocen === null, dla wybranego lesson
 exports.sendGrades = async (req, res) => {
   // console.log(req);

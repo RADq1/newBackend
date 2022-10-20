@@ -64,6 +64,7 @@ db.grade.belongsTo(db.lesson);
 db.grade.belongsTo(db.user);
 
 db.faculty.hasOne(db.fieldOfStudy);
+// db.fieldOfStudy.hasMany(db.faculty);
 db.ROLES = ["user", "admin", "moderator"];
 
 module.exports = db;

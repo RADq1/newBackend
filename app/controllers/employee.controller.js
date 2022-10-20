@@ -40,6 +40,18 @@ exports.sendUpdateFieldOfStudent = async (req, res) => {
       res.status(200).send(`Zaaktualizowano kierunek dla użytkownika o id: ${id}, kierunek o id ${fieldOfStudy}`);
     }
 };
+exports.deleteStudentFromDatabase = async (req, res) => {
+  console.log(req.body.id);
+  const { id } = req.body;
+    User.findOne({
+      where: {
+        id: id,
+      },
+    }).then((user) => {
+      user.destroy();
+    });
+    res.status(200).send(`Usunięto studenta o id: ${id}`);
+};
 
 exports.showAllFieldOfStudies = async (req, res) => {
   const data = await fieldOfStudy.findAll({})

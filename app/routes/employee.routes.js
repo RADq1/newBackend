@@ -11,5 +11,6 @@ module.exports = function (app) {
 
   app.get("/showAssignedLessons/:id", controller.sendAssignedLessons);
   app.post("/updateStudentFieldOfStudy", controller.sendUpdateFieldOfStudent);
+  app.post("/deleteStudent", controller.deleteStudentFromDatabase);
   app.get("/showAllFieldOfStudies", controller.showAllFieldOfStudies);
 };

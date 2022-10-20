@@ -2,7 +2,8 @@ const db = require("../models");
 const config = require("../config/auth.config");
 const User = db.user;
 const Role = db.role;
-
+const FieldOfStudy = db.fieldOfStudy;
+const Faculties = db.faculty;
 const Op = db.Sequelize.Op;
 
 var jwt = require("jsonwebtoken");
@@ -228,4 +229,21 @@ exports.editPassword = (req, res) => {
     console.log(password, id);
     res.status(200).send(`Zaaktualizowano profil o id: ${id}`);
   }
+};
+
+exports.showFieldOfStudiesList = async (req, res) => {
+  const data = await Faculties.findAll({
+    include: {
+      model: FieldOfStudy,
+    },
+  })
+    .then(function (data) {
+      console.log(data);
+      return data;
+    })
+    .catch((error) => {
+      return error;
+    });
+
+  res.json({ success: true, data: data });
 };

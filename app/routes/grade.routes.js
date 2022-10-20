@@ -11,6 +11,7 @@ module.exports = function (app) {
 
   app.get("/showGrades/:id", controller.sendAllGrades);
   app.get("/showStudentList", controller.sendStudentList);
+  app.get("/sendEmployeeList", controller.sendEmployeeList);
   app.get("/showGrade/:id", controller.sendGrades);
   app.post("/addGrades", controller.addGrades);
   app.post("/importGrades", upload.single("file"), controller.upload);

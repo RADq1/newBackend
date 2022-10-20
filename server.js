@@ -228,26 +228,31 @@ function initial() {
   FieldOfStudy.create({
     id: 1,
     name: "Informatyka Stosowana",
+    description: "Nauka ścisłego programowania i obsługi komputera",
     facultyId: 1,
   });
   FieldOfStudy.create({
     id: 2,
     name: "Informatyka w biznesie",
+    description: "Nauka ścisłego programowania pod kątem tworzenia aplikacji biznesowych",
     facultyId: 1,
   });
   FieldOfStudy.create({
     id: 3,
     name: "Zarządzanie firmą",
+    description: "Rozległa nauka zarządzania firmą, a w szczególności produkcją",
     facultyId: 2,
   });
   FieldOfStudy.create({
     id: 4,
     name: "Budownictwo",
+    description: "Nauka tworzenia budownictwa, poznanie materiałów budowlanych oraz architektura",
     facultyId: 3,
   });
   FieldOfStudy.create({
     id: 5,
     name: "Inżynieria środowiska",
+    description: "Kierunek stworzony dla osób z pasją w kierunku ochrony środowiska",
     facultyId: 3,
   });
   Lesson.create({

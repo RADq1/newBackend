@@ -42,4 +42,6 @@ module.exports = function (app) {
   app.post("/edit/surname", controller.editSurname);
   app.post("/edit/address", controller.editAddress);
   app.post("/edit/password", controller.editPassword);
+
+  app.get("/information", controller.showFieldOfStudiesList);
 };
