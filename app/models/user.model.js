@@ -1,6 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
   const User = sequelize.define("users", {
-    //wspolne kolumny
     id: {
       autoIncrement: true,
       type: Sequelize.INTEGER,
@@ -21,7 +20,6 @@ module.exports = (sequelize, Sequelize) => {
     password: {
       type: Sequelize.STRING,
     },
-    //Dla studenta
     isFinished: {
       type: Sequelize.BOOLEAN,
     },
@@ -38,7 +36,6 @@ module.exports = (sequelize, Sequelize) => {
     birthDate: {
       type: Sequelize.DATEONLY,
     },
-    //Dla pracownika
     title: {
       type: Sequelize.STRING,
     },
@@ -48,7 +45,6 @@ module.exports = (sequelize, Sequelize) => {
     semestr: {
       type: Sequelize.INTEGER,
     }
-    //TODO RELACJA DO KIERUNKU ORAZ WYDZIAŁU
   });
   return User;
 };
