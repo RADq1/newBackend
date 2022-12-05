@@ -1,4 +1,4 @@
-const { sequelize } = require("../models");
+const { sequelize, grade } = require("../models");
 const db = require("../models");
 const readXlsxFile = require("read-excel-file/node");
 
@@ -53,6 +53,38 @@ exports.sendGrades = async (req, res) => {
     where: {
       grade: null,
     },
+    include: [{
+      required: true,
+      model: Lesson,
+      where: {
+        id : id,
+      },
+      attributes: ["name", "semestr", "type"],
+    },
+    {
+      required: true,
+      model: User,
+      attributes: ["name", "surname"],
+    },
+  ],
+  })
+    .then(function (data) {
+      return data;
+    })
+    .catch((error) => {
+      console.log(error);
+      return error;
+    });
+
+  res.json({ success: true, data: data });
+};
+exports.sendGradesForChange = async (req, res) => {
+  const { id } = req.params;
+  console.log(id);
+  const data = await Grades.findAll({
+    // where: {
+    //   grade: 'IS NOT NULL',
+    // },
     include: [{
       required: true,
       model: Lesson,

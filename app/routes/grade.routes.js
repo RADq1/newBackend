@@ -13,6 +13,7 @@ module.exports = function (app) {
   app.get("/showStudentList", controller.sendStudentList);
   app.get("/sendEmployeeList", controller.sendEmployeeList);
   app.get("/showGrade/:id", controller.sendGrades);
+  app.get("/showGradeForChange/:id", controller.sendGradesForChange);
   app.post("/addGrades", controller.addGrades);
   app.post("/importGrades", upload.single("file"), controller.upload);
 };
